@@ -318,7 +318,7 @@ class DiscPolicy(nn.Module):
     A discrete policy using a fully connected neural network.
     The parameterizing tensor is a categorical distribution over actions
     '''
-    def __init__(self, state_dim, action_dim, init, hidden_sizes=HIDDEN_SIZES, time_in_state=False, share_weights=False):
+    def __init__(self, state_dim, action_dim, init, hidden_sizes=HIDDEN_SIZES, time_in_state=False, share_weights=False, activation=None):
         '''
         Initializes the network with the state dimensionality and # actions
         Inputs:
@@ -330,7 +330,13 @@ class DiscPolicy(nn.Module):
             encoded in the state vector
         '''
         super().__init__()
-        self.activation = ACTIVATION()
+        
+        if isinstance(activation, str):
+            self.activation = activation_with_name(activation)()
+        else:
+            # Default to tanh.
+            self.activation = ACTIVATION()
+            
         self.time_in_state = time_in_state
 
         self.discrete = True
@@ -431,7 +437,16 @@ class DiscPolicy(nn.Module):
             return self.final_value(ch.cat((x, t), -1))
         else:
             return self.final_value(x)
+    
+    def reset(self):
+        return
+    
+    
+    def pause_history(self):
+        return
 
+    def continue_history(self):
+        return
 
 class CtsPolicy(nn.Module):
     '''

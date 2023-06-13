@@ -12,6 +12,8 @@ import json
 import torch
 from cox.store import Store, schema_from_dict
 
+import real_systems
+
 
 # Tee object allows for logging to both stdout and to file
 class Tee(object):
@@ -359,6 +361,8 @@ def add_common_parser_opts(parser):
     parser.add_argument('--show-env', type=str2bool, help='Show environment visualization')
     parser.add_argument('--save-frames', type=str2bool, help='Save environment frames')
     parser.add_argument('--save-frames-path', type=str, help='Path to save environment frames')
+    
+    
 
     # For grid searches only
     # parser.add_argument('--cox-experiment-path', type=str, default='')
